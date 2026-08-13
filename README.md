@@ -695,33 +695,101 @@ RECHAZADA
 
 ---
 
-
 ## Evidencias de ejecución
+
+El proyecto fue validado mediante pruebas unitarias, pruebas de integración de Apache Camel y ejecución funcional completa.
 
 ### Pruebas automatizadas
 
-La aplicación cuenta con pruebas unitarias y pruebas de integración sobre Apache Camel.
+La ejecución final se realizó mediante:
 
-![Pruebas de integración Camel](docs/evidencias/03-tests-integracion-camel.png)
+```bash
+mvn clean test
+```
 
-Las pruebas validan, entre otros casos:
-
-- transferencia válida a ITAU;
-- transferencia válida a ATLAS;
-- transferencia válida a FAMILIAR;
-- banco desconocido;
-- monto mayor o igual a 10.000.000;
-- checksum incorrecto;
-- estructura TLV inválida.
-
-La ejecución final de pruebas devuelve:
+Resultado obtenido:
 
 ```text
+Tests run: 20
 Failures: 0
 Errors: 0
 Skipped: 0
+
 BUILD SUCCESS
 ```
+
+Dentro de estas pruebas, `SipapRouteTest` ejecuta los 7 escenarios principales de integración requeridos:
+
+1. Transferencia válida a ITAU.
+2. Transferencia válida a ATLAS.
+3. Transferencia válida a FAMILIAR.
+4. Banco destino desconocido.
+5. Monto mayor o igual a 10.000.000 PYG.
+6. CRC diferente de `A1B2`.
+7. TLV con longitud declarada incorrecta.
+
+![Pruebas automatizadas - 20 tests](docs/evidencias/03-tests-integracion-camel.png)
+
+---
+
+### Transferencia procesada correctamente
+
+La siguiente evidencia muestra una transferencia destinada a Banco Familiar.
+
+El mediador interpreta el QR, genera el modelo canónico, identifica el código de entidad `0020` y enruta el mensaje al consumidor correspondiente.
+
+El resultado obtenido es:
+
+```json
+{
+  "estado": "PROCESADA",
+  "mensaje": "Transferencia procesada exitosamente por FAMILIAR"
+}
+```
+
+![Transferencia FAMILIAR procesada](docs/evidencias/04-transferencia-familiar-procesada.png)
+---
+
+### Transferencia rechazada
+
+La siguiente evidencia corresponde a una cadena TLV inválida.
+
+La longitud declarada para el tag `59` no coincide con la cantidad de caracteres disponibles. El error es capturado por el manejo centralizado de excepciones de Apache Camel.
+
+El resultado es:
+
+```text
+estado: RECHAZADA
+mensaje: Error de parsing o procesamiento:
+         Longitud declarada invalida para el tag 59
+```
+
+![Transferencia TLV rechazada](docs/evidencias/05-transferencia-tlv-rechazada.png)
+
+Esta prueba demuestra que un mensaje inválido es rechazado sin detener el funcionamiento general del mediador.
+
+---
+
+## Ejemplos de QR
+
+Los ejemplos utilizados para las transferencias válidas e inválidas se encuentran en:
+
+```text
+docs/ejemplos-qr.txt
+```
+
+El archivo incluye ejemplos correspondientes a:
+
+- ITAU (`0015`);
+- ATLAS (`0007`);
+- FAMILIAR (`0020`);
+- banco desconocido;
+- monto inválido;
+- CRC inválido;
+- longitud TLV inválida.
+
+---
+
 ## 21. Restricciones de la implementación
 
 La solución:
