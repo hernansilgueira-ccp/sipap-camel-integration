@@ -93,6 +93,9 @@ Todos los canales utilizados son internos al mismo `CamelContext`.
 No se utiliza ActiveMQ, Artemis ni ningún otro broker.
 
 ---
+### Diagrama de arquitectura
+
+![Diagrama de arquitectura SIPAP](docs/diagrama-arquitectura-sipap.png)
 
 ## 4. Bancos simulados
 
