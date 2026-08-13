@@ -1,0 +1,132 @@
+EJEMPLOS DE CADENAS QR - SIPAP CAMEL INTEGRATION
+
+==================================================
+1. QR VALIDO - ITAU
+==================================================
+
+Banco destino: ITAU
+Codigo BCP: 0015
+Cuenta: 1234567890
+Monto: 15000
+Moneda: 600 (PYG)
+CRC: A1B2
+
+Cadena TLV:
+
+00020101021232400014py.gov.bcp.sip01040015021012345678905204573153036005405150005802PY5911TIENDA ITAU6008ASUNCION6304A1B2
+
+
+==================================================
+2. QR VALIDO - ATLAS
+==================================================
+
+Banco destino: ATLAS
+Codigo BCP: 0007
+Cuenta: 9876543210
+Monto: 25000
+Moneda: 600 (PYG)
+CRC: A1B2
+
+Ejemplo generado por QrGenerator:
+- globally_unique_identifier: py.gov.bcp.sip
+- codigo_entidad: 0007
+- numero_cuenta: 9876543210
+- transaction_amount: 25000
+- transaction_currency: 600
+- country_code: PY
+- crc: A1B2
+
+
+==================================================
+3. QR VALIDO - FAMILIAR
+==================================================
+
+Banco destino: FAMILIAR
+Codigo BCP: 0020
+Cuenta: 1122334455
+Monto: 35000
+Moneda: 600 (PYG)
+CRC: A1B2
+
+Ejemplo generado por QrGenerator:
+- globally_unique_identifier: py.gov.bcp.sip
+- codigo_entidad: 0020
+- numero_cuenta: 1122334455
+- transaction_amount: 35000
+- transaction_currency: 600
+- country_code: PY
+- crc: A1B2
+
+
+==================================================
+4. QR INVALIDO - BANCO DESCONOCIDO
+==================================================
+
+Codigo de entidad:
+
+9999
+
+Resultado esperado:
+
+RECHAZADA
+
+Motivo:
+
+Banco destino desconocido: 9999
+
+
+==================================================
+5. QR INVALIDO - MONTO MAYOR O IGUAL A 10.000.000
+==================================================
+
+Monto:
+
+10000000
+
+Resultado esperado:
+
+RECHAZADA
+
+Motivo:
+
+El monto supera o iguala el maximo permitido
+
+
+==================================================
+6. QR INVALIDO - CRC
+==================================================
+
+CRC recibido:
+
+FFFF
+
+CRC esperado:
+
+A1B2
+
+Resultado esperado:
+
+RECHAZADA
+
+Motivo:
+
+Checksum invalido
+
+
+==================================================
+7. QR INVALIDO - LONGITUD TLV
+==================================================
+
+Ejemplo:
+
+0002010102125910ERROR
+
+El tag 59 declara una longitud que no coincide con los caracteres disponibles.
+
+Resultado esperado:
+
+RECHAZADA
+
+Motivo:
+
+Error de parsing o procesamiento

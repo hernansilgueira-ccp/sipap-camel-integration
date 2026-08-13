@@ -695,6 +695,33 @@ RECHAZADA
 
 ---
 
+
+## Evidencias de ejecución
+
+### Pruebas automatizadas
+
+La aplicación cuenta con pruebas unitarias y pruebas de integración sobre Apache Camel.
+
+![Pruebas de integración Camel](docs/evidencias/03-tests-integracion-camel.png)
+
+Las pruebas validan, entre otros casos:
+
+- transferencia válida a ITAU;
+- transferencia válida a ATLAS;
+- transferencia válida a FAMILIAR;
+- banco desconocido;
+- monto mayor o igual a 10.000.000;
+- checksum incorrecto;
+- estructura TLV inválida.
+
+La ejecución final de pruebas devuelve:
+
+```text
+Failures: 0
+Errors: 0
+Skipped: 0
+BUILD SUCCESS
+```
 ## 21. Restricciones de la implementación
 
 La solución:
